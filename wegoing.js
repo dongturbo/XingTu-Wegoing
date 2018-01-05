@@ -2,40 +2,6 @@ var CryptoJS = require('crypto-js')
 var request = require('request-promise')
 
 
-
-function encrypt (text, originKey) {
-    var originKey = originKey.slice(0, 16),
-        key = CryptoJS.enc.Utf8.parse(originKey),
-        iv = CryptoJS.enc.Utf8.parse(originKey),
-        msg = JSON.stringify(text)
-    var ciphertext = CryptoJS.AES.encrypt(msg, key, {
-        iv: iv,
-        mode: CryptoJS.mode.CBC,
-        padding: CryptoJS.pad.Pkcs7
-    });
-    return ciphertext.toString()
-}
-
-function decrypt (text, originKey) {
-    var originKey = originKey.slice(0, 16),
-        key = CryptoJS.enc.Utf8.parse(originKey),
-        iv = CryptoJS.enc.Utf8.parse(originKey)
-    var bytes = CryptoJS.AES.decrypt(text, key, {
-        iv: iv
-    })
-    var plaintext = CryptoJS.enc.Utf8.stringify(bytes)
-    return plaintext
-}
-
-function extend (target) {
-    var sources = [].slice.call(arguments, 1)
-    sources.forEach(function (source) {
-        for (var prop in source) {
-            target[prop] = source[prop]
-        }
-    })
-    return target
-}
 function getSig(data) {
     var str = 'wx7a727ff7d940bb3f';
     data.forEach(function (res) {
@@ -84,7 +50,7 @@ var base_req = {
 }
 var base_site = 'https://game.weixin.qq.com/cgi-bin/gametetrisws/syncgame?session_id='+session_id
 
-var path = 'wxagame_getuserinfo'
+
 request({
     method: 'POST',
     url: base_site,
